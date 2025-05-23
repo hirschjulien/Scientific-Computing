@@ -1,4 +1,4 @@
-function xdot = CSTR3(t,x,p)
+function [xdot,Jac] = CSTR3FunJac(t,x,p)
 % CSTR 3 State 
 %
 %
@@ -31,3 +31,19 @@ cTdot = F/V *(Tin - T) + RT ;
 xdot(1)=cAdot;
 xdot(2)=cBdot;
 xdot(3)=cTdot;
+
+% Jacobian
+Jac = zeros(3,3);
+Jac(1,1) = - F/V -kT*cA;
+Jac(1,2) = -kT*cA;
+Jac(1,3) = -kT*EaR*T^(-2);
+
+Jac(2,1) = -2*kT*cB;
+Jac(2,2) = -F/V - 2*kT*cA;
+Jac(2,3) = -2*kT*EaR*T^(-2);
+
+Jac(3,1) = beta*kT*cB;
+Jac(3,2) = beta*kT*cA;
+Jac(3,3) = - F/V +beta*kT*EaR*T^(-2);
+
+end
